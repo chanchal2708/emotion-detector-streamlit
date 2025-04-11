@@ -1,0 +1,26 @@
+import librosa
+import os
+
+# Directory containing audio files
+audio_dir = 'data/audio/'
+
+# Check if the directory exists and contains files
+if not os.path.exists(audio_dir):
+    print(f"Directory {audio_dir} does not exist.")
+else:
+    files = os.listdir(audio_dir)
+    if not files:
+        print(f"No files found in {audio_dir}.")
+    else:
+        # Iterate over each audio file in the directory
+        for filename in files:
+            if filename.endswith('.wav'):
+                audio_path = os.path.join(audio_dir, filename)
+                # Load the audio file
+                y, sr = librosa.load(audio_path, sr=None)
+                # Apply noise reduction and normalization
+                y = librosa.effects.preemphasis(y)
+                # Print the shape of the audio signal
+                print(f'Processed {filename}: {y.shape}')
+            else:
+                print(f'Skipping non-wav file: {filename}')
